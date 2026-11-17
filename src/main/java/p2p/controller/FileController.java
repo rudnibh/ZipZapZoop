@@ -46,6 +46,7 @@ public class FileController {
 
         server.createContext("/upload", new UploadHandler());
         server.createContext("/download", new DownloadHandler());
+        server.createContext("/status", new StatusHandler());
         server.createContext("/", new CORSHandler());
 
         server.setExecutor(executorService);
@@ -308,6 +309,72 @@ public class FileController {
                 );
                 String response = "Server error: " + e.getMessage();
                 exchange.sendResponseHeaders(500, response.getBytes().length);
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response.getBytes());
+                }
+            }
+        }
+    }
+
+    private class StatusHandler implements HttpHandler {
+
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            Headers headers = exchange.getResponseHeaders();
+            headers.add("Access-Control-Allow-Origin", "*");
+            headers.add("Access-Control-Allow-Methods", "GET, OPTIONS");
+            headers.add(
+                "Access-Control-Allow-Headers",
+                "Content-Type,Authorization"
+            );
+
+            if (exchange.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
+                exchange.sendResponseHeaders(204, -1);
+                return;
+            }
+
+            if (!exchange.getRequestMethod().equalsIgnoreCase("GET")) {
+                String response = "Method Not Allowed";
+                exchange.sendResponseHeaders(405, response.getBytes().length);
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response.getBytes());
+                }
+                return;
+            }
+
+            String path = exchange.getRequestURI().getPath();
+            String portStr = path.substring(path.lastIndexOf('/') + 1);
+
+            try {
+                int port = Integer.parseInt(portStr);
+                String status = fileSharer.getStatus(port);
+                headers.add("Content-Type", "application/json");
+
+                if (status == null) {
+                    String response = "{\"error\":\"Unknown transfer\"}";
+                    exchange.sendResponseHeaders(
+                        404,
+                        response.getBytes().length
+                    );
+                    try (OutputStream os = exchange.getResponseBody()) {
+                        os.write(response.getBytes());
+                    }
+                    return;
+                }
+
+                String response =
+                    "{\"port\":" +
+                    port +
+                    ",\"status\":\"" +
+                    status +
+                    "\"}";
+                exchange.sendResponseHeaders(200, response.getBytes().length);
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response.getBytes());
+                }
+            } catch (NumberFormatException e) {
+                String response = "Bad Request: Invalid port number";
+                exchange.sendResponseHeaders(400, response.getBytes().length);
                 try (OutputStream os = exchange.getResponseBody()) {
                     os.write(response.getBytes());
                 }

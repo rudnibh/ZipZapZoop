@@ -224,3 +224,162 @@
   animation: pulse-soft 2s ease-in-out infinite;
 }
 
+/* ---------------------------------------------------------
+   Product surface — backdrop, glass panels, motion
+   --------------------------------------------------------- */
+
+@keyframes blob-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(40px, -30px, 0) scale(1.08); }
+  66% { transform: translate3d(-30px, 24px, 0) scale(0.94); }
+}
+
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes packet-travel {
+  0% { left: 0%; opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+  12% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  88% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { left: 100%; opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+}
+
+@keyframes ping-ring {
+  0% { transform: scale(0.85); opacity: 0.7; }
+  80%, 100% { transform: scale(1.9); opacity: 0; }
+}
+
+@keyframes scan-down {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(400%); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+.dot-grid {
+  background-image: radial-gradient(rgba(45, 27, 61, 0.14) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, black 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, black 30%, transparent 78%);
+}
+
+.text-gradient {
+  background-image: linear-gradient(100deg, #7c5cfc 0%, #e465ad 42%, #2fbf9b 78%, #7c5cfc 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-x 7s ease-in-out infinite;
+}
+
+.soft-card {
+  background: rgba(255, 255, 255, 0.78);
+  border: 2px solid rgba(45, 27, 61, 0.12);
+  border-radius: 1.5rem;
+  box-shadow:
+    0 30px 70px -42px rgba(45, 27, 61, 0.45),
+    0 1px 0 0 rgba(255, 255, 255, 0.9) inset;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.hard-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(45, 27, 61, 0.16);
+  border-radius: 1.5rem;
+  box-shadow: 8px 8px 0 0 rgba(45, 27, 61, 0.08);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.hard-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 11px 13px 0 0 rgba(45, 27, 61, 0.1);
+}
+
+.nav-shell {
+  background: #fffafc;
+  border: 1px solid rgba(45, 27, 61, 0.12);
+  box-shadow: 0 18px 45px -30px rgba(45, 27, 61, 0.5);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+.animate-blob {
+  animation: blob-drift 18s ease-in-out infinite;
+}
+
+.animate-blob-slow {
+  animation: blob-drift 26s ease-in-out infinite reverse;
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.packet {
+  animation: packet-travel 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.packet:nth-child(2) { animation-delay: 0.8s; }
+.packet:nth-child(3) { animation-delay: 1.6s; }
+
+.status-ping::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: ping-ring 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.code-tile {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 244, 255, 0.92));
+  border: 2px solid rgba(45, 27, 61, 0.18);
+  box-shadow:
+    0 4px 0 0 rgba(45, 27, 61, 0.1),
+    0 12px 24px -18px rgba(45, 27, 61, 0.5);
+}
+
+.stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(45, 27, 61, 0.04) 0,
+    rgba(45, 27, 61, 0.04) 1px,
+    transparent 1px,
+    transparent 8px
+  );
+}
+
+.terminal-line {
+  font-variant-ligatures: none;
+}
+
+::selection {
+  background: rgba(167, 139, 250, 0.35);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-blob,
+  .animate-blob-slow,
+  .animate-float-slow,
+  .packet,
+  .status-ping::after,
+  .text-gradient {
+    animation: none !important;
+  }
+}
+
