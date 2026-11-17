@@ -10,10 +10,6 @@ type ProgressHandler = (progress: TransferProgress) => void
 
 const MAX_SAMPLES = 48
 
-/**
- * Turns raw XHR progress events into elapsed time, a rolling speed estimate
- * and a small history that the UI can draw as a sparkline.
- */
 function createReporter(onProgress: ProgressHandler) {
   const startedAt = performance.now()
   let lastSampleAt = startedAt
@@ -118,7 +114,7 @@ export function downloadFile(
         try {
           detail = await xhr.response.text()
         } catch {
-          /* ignore */
+          detail = ''
         }
         reject(
           new Error(
@@ -132,8 +128,6 @@ export function downloadFile(
       const disposition = xhr.getResponseHeader('Content-Disposition') ?? ''
       const match = /filename="?([^";]+)"?/i.exec(disposition)
       const rawName = match?.[1] || `zipzapzoop-${port}`
-      // The backend stores uploads as "<uuid>_<original name>"; show the
-      // original name to the person downloading the file.
       const filename = rawName.replace(
         /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}_/i,
         '',
@@ -166,10 +160,6 @@ const TRANSFER_STATES: TransferState[] = [
   'error',
 ]
 
-/**
- * Reads the sender-side lifecycle state for a staged transfer. Returns null
- * when the backend no longer knows the code (for example, after a restart).
- */
 export async function getTransferStatus(
   port: number,
 ): Promise<TransferStatus | null> {

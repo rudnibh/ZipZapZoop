@@ -48,7 +48,7 @@ export function saveHistory(entries: HistoryEntry[]) {
       JSON.stringify(entries.slice(0, MAX_ENTRIES)),
     )
   } catch {
-    /* storage may be unavailable; history is a nice-to-have */
+    return
   }
 }
 

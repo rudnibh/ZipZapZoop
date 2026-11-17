@@ -331,7 +331,7 @@ export default function Home() {
           return
         }
       } catch {
-        // Network hiccups should not kill the live session; retry.
+        timer = undefined
       }
 
       if (!cancelled) {

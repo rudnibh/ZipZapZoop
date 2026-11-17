@@ -8,7 +8,6 @@ import p2p.controller.FileController;
 public class App {
     public static void main(String[] args) {
         try {
-            // Start the API server on port 8080
             FileController fileController = new FileController(8080);
             fileController.start();
             

@@ -62,8 +62,7 @@
 
 :root {
   --radius: 1rem;
-  /* Cute pastel neobrutalism palette */
-  --background: #FFF5F7; /* soft pink white */
+  --background: #FFF5F7;
   --foreground: #2D1B3D;
   --main: #C9A9E9;
   --main-foreground: #2D1B3D;
@@ -71,32 +70,30 @@
   --card-foreground: #2D1B3D;
   --popover: #FFFFFF;
   --popover-foreground: #2D1B3D;
-  --primary: #A78BFA; /* soft purple */
+  --primary: #A78BFA;
   --primary-foreground: #1F1235;
-  --secondary: #B4F8C8; /* mint green */
+  --secondary: #B4F8C8;
   --secondary-foreground: #1A4D2E;
   --secondary-background: #E8FFF3;
   --muted: #F8F4FF;
   --muted-foreground: #6B5B7B;
-  --accent: #FFD6E8; /* pastel pink */
+  --accent: #FFD6E8;
   --accent-foreground: #4D1F3A;
-  --success: #A0E7E5; /* pastel cyan */
+  --success: #A0E7E5;
   --success-foreground: #1A4D4D;
-  --pink: #FFB4D6; /* bright pastel pink */
+  --pink: #FFB4D6;
   --pink-foreground: #5C1F3D;
-  --yellow: #FFF4A3; /* pastel yellow */
+  --yellow: #FFF4A3;
   --yellow-foreground: #5C4D1F;
   --destructive: #FF9AA2;
   --border: #E5D4ED;
   --input: #F0E7F7;
   --ring: #C9A9E9;
-  /* charts (pastel set) */
   --chart-1: #A78BFA;
   --chart-2: #B4F8C8;
   --chart-3: #FFD6E8;
   --chart-4: #FFF4A3;
   --chart-5: #A0E7E5;
-  /* sidebar */
   --sidebar: #FFF5F7;
   --sidebar-foreground: #2D1B3D;
   --sidebar-primary: var(--primary);
@@ -159,7 +156,6 @@
   }
 }
 
-/* Cute animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
@@ -191,7 +187,6 @@
   50% { opacity: 1; transform: scale(1); }
 }
 
-/* Neobrutal utility helpers */
 @utility nb-card {
   @apply bg-card text-card-foreground border-[3px] border-foreground/30 shadow-[8px_8px_0_0_rgba(0,0,0,0.15)] rounded-base transition-all duration-200;
 }
@@ -223,10 +218,6 @@
 @utility animate-pulse-soft {
   animation: pulse-soft 2s ease-in-out infinite;
 }
-
-/* ---------------------------------------------------------
-   Product surface — backdrop, glass panels, motion
-   --------------------------------------------------------- */
 
 @keyframes blob-drift {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }

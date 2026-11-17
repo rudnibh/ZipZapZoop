@@ -102,7 +102,7 @@ public class FileController {
 
         public ParseResult parse() {
             try {
-                byte[] headerSeparator = { 13, 10, 13, 10 }; // \r\n\r\n
+                byte[] headerSeparator = { 13, 10, 13, 10 };
                 int headerEndIndex = findSequence(data, headerSeparator, 0);
                 if (headerEndIndex == -1) {
                     return null;
@@ -176,7 +176,7 @@ public class FileController {
                 System.err.println(
                     "Error parsing multipart data: " + e.getMessage()
                 );
-                e.printStackTrace(); // Keep this for debugging
+                e.printStackTrace();
                 return null;
             }
         }
@@ -409,7 +409,7 @@ public class FileController {
                     InputStream socketInput = socket.getInputStream()
                 ) {
                     File tempFile = File.createTempFile("download-", ".tmp");
-                    String filename = "downloaded-file"; // Default filename
+                    String filename = "downloaded-file";
 
                     try (
                         FileOutputStream fos = new FileOutputStream(tempFile)
